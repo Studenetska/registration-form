@@ -1,8 +1,7 @@
-<!-- !!!!!!!!!!!!!!!!!! 2 вариант -->
 <div class="container">
 
 
-  <h2 class="title">Реєстраційна форма</h2>
+  <h2 class="title">Registration Form</h2>
 
   <section class="registration">
 
@@ -14,8 +13,7 @@
         <div class="small-form">
           <mat-form-field appearance="fill">
             <mat-label>{{formLabels.firstName}}</mat-label>
-            <input matInput placeholder="Введіть ім'я..." type="text" formControlName="firstName"
-              (blur)="onValueChanged()">
+            <input matInput type="text" formControlName="firstName" (blur)="onValueChanged()">
             <mat-error class="error" *ngIf="formError.firstName">{{formError.firstName}}</mat-error>
           </mat-form-field>
         </div>
@@ -23,8 +21,7 @@
         <div class="small-form">
           <mat-form-field appearance="fill">
             <mat-label>{{formLabels.lastName}}</mat-label>
-            <input matInput placeholder="Введіть фамілію..." type="text" formControlName="lastName"
-              (blur)="onValueChanged()">
+            <input matInput type="text" formControlName="lastName" (blur)="onValueChanged()">
             <mat-error class="error" *ngIf="formError.lastName">{{formError.lastName}}</mat-error>
           </mat-form-field>
         </div>
@@ -65,8 +62,7 @@
 
           <ng-template #angularTemplate>
             <mat-form-field appearance="fill">
-              <mat-label *ngIf="selectedFramework === 'angular'">Оберіть версію
-                Angular</mat-label>
+              <mat-label *ngIf="selectedFramework === 'angular'">Choose the Angular version</mat-label>
               <mat-select formControlName="frameworksVersion" (blur)="onValueChanged()">
                 <mat-option *ngFor="let item of frameworksVersion.angular" [value]="item">{{item}}</mat-option>
               </mat-select>
@@ -75,7 +71,7 @@
 
           <ng-template #reactTemplate>
             <mat-form-field appearance="fill">
-              <mat-label *ngIf="selectedFramework === 'react'">Оберіть версію React</mat-label>
+              <mat-label *ngIf="selectedFramework === 'react'">Choose the React version</mat-label>
               <mat-select formControlName="frameworksVersion" (blur)="onValueChanged()">
                 <mat-option *ngFor="let item of frameworksVersion.react" [value]="item">{{item}}</mat-option>
               </mat-select>
@@ -84,7 +80,7 @@
 
           <ng-template #vueTemplate>
             <mat-form-field appearance="fill">
-              <mat-label *ngIf="selectedFramework === 'vue'">Оберіть версію Vue</mat-label>
+              <mat-label *ngIf="selectedFramework === 'vue'">Choose the Vue version</mat-label>
               <mat-select formControlName="frameworksVersion" (blur)="onValueChanged()">
                 <mat-option *ngFor="let item of frameworksVersion.vue" [value]="item">{{item}}</mat-option>
               </mat-select>
@@ -102,8 +98,9 @@
           <input placeholder="Введіть email..." matInput type="text" formControlName="email" (blur)="onValueChanged()"
             [ngClass]="{'is-valid': userForm.controls['email'].valid,
           'is-invalid': userForm.controls['email'].invalid && (userForm.controls['email'].touched || userForm.controls['email'].dirty)}">
-          <div class="error" *ngIf="userForm.controls['email'].pending">Почекайте виконується перевірка...</div>
-          <div class="is-valid" *ngIf="userForm.controls['email'].valid">Email прийнято!</div>
+          <div class="error" *ngIf="userForm.controls['email'].pending">Please wait, verification is in progress...
+          </div>
+          <div class="is-valid" *ngIf="userForm.controls['email'].valid">Email accepted!</div>
           <div class="error is-invalid"
             *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].touched || userForm.controls['email'].dirty)">
             <mat-error *ngIf="formError.email">{{formError.email}}</mat-error>
@@ -116,7 +113,7 @@
       <div class="new-filed">
 
         <div class="new-form--add">
-          <h3>Додайте свое хоббі</h3>
+          <h3>Add your hobby</h3>
           <button (click)="createHobbyGroup()" type="button" class="btn-add"><span>+</span></button>
         </div>
 
@@ -125,7 +122,7 @@
             <div class="form-group">
               <mat-form-field appearance="fill">
                 <div class="small-form__select" [formGroupName]="i">
-                  <mat-label>Оберіть хоббі</mat-label>
+                  <mat-label>Choose a hobby</mat-label>
                   <mat-select formControlName="name" (mousedown)="validateHobby(i)">
                     <mat-option *ngFor="let option of hobbyName" [value]="option">{{option}}</mat-option>
                   </mat-select>
@@ -133,7 +130,7 @@
               </mat-form-field><br />
               <mat-form-field appearance="fill">
                 <div class="small-form__select" [formGroupName]="i">
-                  <mat-label>Скільки часу вже займаєтесь</mat-label>
+                  <mat-label>How long have you been doing it?</mat-label>
                   <mat-select formControlName="duration" (mousedown)="validateHobby(i)">
                     <mat-option *ngFor="let item of hobbyDuration" [value]="item">{{item}}</mat-option>
                   </mat-select>
@@ -147,136 +144,10 @@
       </div>
 
       <div class="submit-form">
-        <button type="submit" [disabled]="userForm.invalid">Зареєструватися</button>
+        <button type="submit" [disabled]="userForm.invalid">Sign Up</button>
       </div>
     </form>
 
   </section>
 
 </div>
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!вариант 1 -->
-
-<!-- <div class="container">
-
-  <form (ngSubmit)="onSubmit()" [formGroup]="userForm" class="form">
-
-    <div class="name-form">
-
-      <div class="small-form">
-        <label for="firstName">{{formLabels.firstName}}</label>
-        <input id="firstName" placeholder="Введіть ім'я..." type="text" formControlName="firstName"
-          (blur)="onValueChanged()">
-        <div class="error" *ngIf="formError.firstName">{{formError.firstName}}</div>
-      </div>
-
-      <div class="small-form">
-        <label for="lastName">{{formLabels.lastName}}</label>
-        <input id="lastName" placeholder="Введіть фамілію..." type="text" formControlName="lastName"
-          (blur)="onValueChanged()">
-        <div class="error" *ngIf="formError.lastName">{{formError.lastName}}</div>
-      </div>
-
-    </div>
-
-    <div class="form-birthDay">
-      <mat-form-field>
-        <mat-label>{{formLabels.dateOfBirth}}</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-error *ngIf="formError.dateOfBirth">{{formError.dateOfBirth}}</mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="select-form">
-
-      <div class="select-form__choice">
-        <label for="frameworks">{{formLabels.frameworks}}</label>
-        <select id="frameworks" formControlName="frameworks" [(ngModel)]="selectedFramework" (blur)="onValueChanged()">
-          <option *ngFor=" let item of frameworksArray" [value]="item">{{item}}</option>
-        </select>
-        <div class="error" *ngIf="formError.frameworks">{{formError.frameworks}}</div>
-      </div>
-
-      <div class="select-form__conditions">
-
-        <ng-container
-          *ngIf="selectedFramework === 'angular'; then angularTemplate else (selectedFramework === 'react' ? reactTemplate : (selectedFramework === 'vue' ? vueTemplate : emptyTemplate))">
-        </ng-container>
-
-        <ng-template #emptyTemplate></ng-template>
-
-        <ng-template #angularTemplate>
-          <label for="frameworksAngular" *ngIf="selectedFramework === 'angular'">Оберіть версію
-            Angular</label>
-          <select id="frameworksAngular" formControlName="frameworksVersion" (blur)="onValueChanged()">
-            <option *ngFor="let item of frameworksVersion.angular" [value]="item">{{item}}</option>
-          </select>
-        </ng-template>
-
-        <ng-template #reactTemplate>
-          <label for="frameworksReact" *ngIf="selectedFramework === 'react'">Оберіть версію React</label>
-          <select id="frameworksReact" formControlName="frameworksVersion" (blur)="onValueChanged()">
-            <option *ngFor="let item of frameworksVersion.react" [value]="item">{{item}}</option>
-          </select>
-        </ng-template>
-
-        <ng-template #vueTemplate>
-          <label for="frameworksVue" *ngIf="selectedFramework === 'vue'">Оберіть версію Vue</label>
-          <select id="frameworksVue" formControlName="frameworksVersion" (blur)="onValueChanged()">
-            <option *ngFor="let item of frameworksVersion.vue" [value]="item">{{item}}</option>
-          </select>
-        </ng-template>
-        <div class="error" *ngIf="formError.frameworksVersion">{{formError.frameworksVersion}}</div>
-      </div>
-
-    </div>
-
-
-    <div class="small-form">
-      <label for="email">{{formLabels.email}}</label>
-      <input id="email" placeholder="Введіть email..." type="email" formControlName="email" (blur)="onValueChanged()"
-        [ngClass]="{'is-valid': userForm.controls['email'].valid,
-        'is-invalid': userForm.controls['email'].invalid && (userForm.controls['email'].touched || userForm.controls['email'].dirty)}">
-      <div class="error" *ngIf="userForm.controls['email'].pending">Почекайте виконується перевірка...</div>
-      <div class="error is-valid" *ngIf="userForm.controls['email'].valid">Email прийнято!</div>
-      <div class="error is-invalid"
-        *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].touched || userForm.controls['email'].dirty)">
-        <div *ngIf="formError.email">{{formError.email}}</div>
-        <div *ngIf="!formError.email && userForm.controls['email'].errors?.['notAllowedEmail']">
-          {{validationErrorMessage.email.notAllowedEmail}}</div>
-      </div>
-    </div>
-
-    <div class="new-form--add">
-      <h3>Додайте свое хоббі</h3>
-      <button mat-mini-fab (click)="createHobbyGroup()" type="button"><mat-icon
-          class="add-course-btn">add</mat-icon></button>
-    </div>
-
-    <ng-container formArrayName="hobby">
-      <ng-container *ngFor="let hobbyGroup of hobby.controls; let i = index">
-        <div class="small-form" [formGroupName]="i">
-          <label for="hobby-name-{{i}}">Оберіть хоббі</label>
-          <select id="hobby-name-{{i}}" formControlName="name" (click)="validateHobby(i)">
-            <option *ngFor="let option of hobbyName" [value]="option">{{option}}</option>
-          </select>
-          <label for="hobby-duration-{{i}}'">Скільки часу вже займаєтесь</label>
-          <select id="hobby-duration-{{i}}'" formControlName="duration" (click)="validateHobby(i)">
-            <option *ngFor="let item of hobbyDuration" [value]="item">{{item}}</option>
-          </select>
-        </div>
-        <div class="error" *ngIf="formError.hobby">{{formError.hobby}}</div>
-      </ng-container>
-    </ng-container>
-
-
-    <div class="submit-form">
-      <button type="submit" [disabled]="userForm.invalid">Зареєструватися</button>
-    </div>
-  </form>
-
-
-</div> -->

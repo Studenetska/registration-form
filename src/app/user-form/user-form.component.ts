@@ -26,12 +26,12 @@ export class UserFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private service: FormDataService) {}
 
   formLabels: any = {
-    firstName: "Ім'я",
-    lastName: 'Фамілія',
-    dateOfBirth: 'Введіть дату народження',
-    frameworks: 'Оберіть фреймворк',
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    dateOfBirth: 'Date of Birth',
+    frameworks: 'Choose a Framework',
     frameworksVersion: '',
-    hobby: 'Оберіть хоббі',
+    hobby: 'Choose a Hobby',
     email: 'Email',
   };
 
@@ -47,29 +47,29 @@ export class UserFormComponent implements OnInit {
 
   validationErrorMessage: any = {
     firstName: {
-      required: "Ім'я обов'язкове поле",
-      minlength: "Ім'я повинно містити більше 2 літер",
+      required: 'First name is required',
+      minlength: 'First name must be at least 2 characters long',
     },
     lastName: {
-      required: "Фамілія обов'язкове поле",
-      minlength: 'Фамілія повинна містити більше 2 літер',
+      required: 'Last name is required',
+      minlength: 'Last name must be at least 2 characters long',
     },
     dateOfBirth: {
-      required: "Дата народження обов'язкове поле",
+      required: 'Date of birth is required',
     },
     frameworks: {
-      required: 'Оберіть Framework',
+      required: 'Choose a framework',
     },
     frameworksVersion: {
-      required: 'Оберіть Версію',
+      required: 'Choose a version',
     },
     hobby: {
-      required: "Хоббі обов'язкове поле",
+      required: 'Hobby is required',
     },
     email: {
-      required: "Email обов'язкове поле",
-      pattern: 'Невірний формат email адреси',
-      notAllowedEmail: 'Email вже існує. Спробуйте інший email',
+      required: 'Email is required',
+      pattern: 'Invalid email format',
+      notAllowedEmail: 'Email already exists. Please try another email',
     },
   };
 
@@ -82,29 +82,29 @@ export class UserFormComponent implements OnInit {
   };
 
   hobbyName: Array<string> = [
-    'Футбол',
-    'Волебол',
-    'Баскетбол',
-    'Теніс',
-    'Плавання',
-    'Плавання під вітрилами',
-    'Велоспорт',
-    'Йога',
-    'Пілатес',
-    'Альпінізм',
+    'Football',
+    'Volleyball',
+    'Basketball',
+    'Tennis',
+    'Swimming',
+    'Sailing',
+    'Cycling',
+    'Yoga',
+    'Pilates',
+    'Rock Climbing',
   ];
 
   hobbyDuration: Array<string> = [
-    '5 і більше років',
-    '4 роки',
-    '3 роки',
-    '2 роки',
-    '1 рік',
-    'більше 6 місяців',
-    'менше 6 місяців',
-    '2 місяці',
-    '1 місяць',
-    'тиждень',
+    '5 or more years',
+    '4 years',
+    '3 years',
+    '2 years',
+    '1 year',
+    'more than 6 months',
+    'less than 6 months',
+    '2 months',
+    '1 month',
+    '1 week',
   ];
 
   selectedFramework!: string;
@@ -153,19 +153,17 @@ export class UserFormComponent implements OnInit {
     const hobbyArray = this.userForm.get('hobby') as FormArray;
     const hobbyGroup = hobbyArray.at(index) as FormGroup;
 
-    // Создаем массив контролов, которые нужно проверить
     const controlsToCheck = [
       hobbyGroup.get('name'),
       hobbyGroup.get('duration'),
     ];
 
-    // Проходим по каждому контролу и проверяем его
     controlsToCheck.forEach((control) => {
       if (control) {
         if (!control.value && control.touched && !control.valid) {
           this.formError.hobby = this.validationErrorMessage.hobby.required;
         } else {
-          this.formError.hobby = ''; // Сбрасываем ошибку, если значение выбрано
+          this.formError.hobby = '';
         }
       }
     });
@@ -178,58 +176,19 @@ export class UserFormComponent implements OnInit {
       return emailService.checkEmailExists(value).pipe(
         map((exists) => {
           if (exists) {
-            // Email уже существует на сервере
             return { notAllowedEmail: { value } };
           } else {
-            // Email не существует на сервере
             return null;
           }
         }),
-        catchError(() => of(null)) // В случае ошибки считаем, что email не существует
+        catchError(() => of(null))
       );
     };
   }
 
-  // onValueChanged() {
-  //   const form = this.userForm;
-
-  //   const hobbyArray = form.get('hobby') as FormArray;
-
-  //   if (hobbyArray && Array.isArray(hobbyArray.controls)) {
-  //     hobbyArray.controls.forEach((hobbyGroup: AbstractControl) => {
-  //       if (hobbyGroup instanceof FormGroup) {
-  //         const nameControl = hobbyGroup.get('name');
-  //         const durationControl = hobbyGroup.get('duration');
-
-  //         if (nameControl && durationControl) {
-  //           const nameValue = nameControl.value;
-  //           const durationValue = durationControl.value;
-
-  //           // Далее можно выполнять необходимую логику в зависимости от значений.
-  //         }
-  //       }
-  //     });
-  //   }
-
-  //   Object.keys(this.formError).forEach((fieldName) => {
-  //     const control = form.get(fieldName);
-
-  //     this.formError[fieldName] = '';
-
-  //     if (control?.invalid && (control.touched || control.dirty)) {
-  //       const message = this.validationErrorMessage[fieldName];
-
-  //       Object.keys(control.errors as ValidationErrors).forEach((key) => {
-  //         this.formError[fieldName] += message[key] + '';
-  //       });
-  //     }
-  //   });
-  // }
-
   onValueChanged() {
     const form = this.userForm;
 
-    // Проверьте поля формы, кроме полей хобби
     Object.keys(this.formError).forEach((fieldName) => {
       const control = form.get(fieldName);
 
