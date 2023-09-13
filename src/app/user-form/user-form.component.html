@@ -94,7 +94,7 @@
       <div class="email-form">
         <mat-form-field appearance="fill">
           <mat-label>{{formLabels.email}}</mat-label>
-          <input placeholder="Введіть email..." matInput type="text" formControlName="email" (blur)="onValueChanged()"
+          <input matInput type="text" formControlName="email" (blur)="onValueChanged()" [(ngModel)]="userEmail.email"
             [ngClass]="{'is-valid': userForm.controls['email'].valid,
           'is-invalid': userForm.controls['email'].invalid && (userForm.controls['email'].touched || userForm.controls['email'].dirty)}">
           <div class="error" *ngIf="userForm.controls['email'].pending">Please wait, verification is in progress...

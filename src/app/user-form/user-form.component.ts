@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import {
@@ -12,6 +13,7 @@ import {
 } from '@angular/forms';
 
 import { catchError, map, Observable, of } from 'rxjs';
+import { EmailsInterface } from '../emails-intrface';
 
 import { FormDataService } from '../form-data.service';
 
@@ -22,8 +24,14 @@ import { FormDataService } from '../form-data.service';
 })
 export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
+  emails!: EmailsInterface[];
+  userEmail = { email: '' };
 
-  constructor(private fb: FormBuilder, private service: FormDataService) {}
+  constructor(
+    private fb: FormBuilder,
+    private service: FormDataService,
+    private http: HttpClient
+  ) {}
 
   formLabels: any = {
     firstName: 'First Name',
@@ -130,7 +138,7 @@ export class UserFormComponent implements OnInit {
             /^([a-zA-Z0-9_.\-])+@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,9})+$/
           ),
         ],
-        [this.emailExistsValidator(this.service)],
+        [this.emailExistsValidator()],
       ],
     });
 
@@ -169,11 +177,30 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  emailExistsValidator(emailService: FormDataService): AsyncValidatorFn {
+  checkEmailExists(email: string) {
+    const headers = new HttpHeaders({ 'Content-Type': 'applicayion/json' });
+    let params = new HttpParams();
+    const option = { headers, params };
+
+    if (this.userEmail?.email) {
+      params = params.set('email', this.userEmail.email);
+    }
+
+    return this.http.get<EmailsInterface[]>(`/emails`, option).pipe(
+      map(
+        (res: EmailsInterface[]) => {
+          return res.some((existingEmail) => existingEmail.email === email);
+        },
+        catchError(() => of(false))
+      )
+    );
+  }
+
+  emailExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const value = control.value;
 
-      return emailService.checkEmailExists(value).pipe(
+      return this.checkEmailExists(value).pipe(
         map((exists) => {
           if (exists) {
             return { notAllowedEmail: { value } };
@@ -205,6 +232,16 @@ export class UserFormComponent implements OnInit {
       }
     });
   }
+
+  // addEmailData(data: any) {
+  //   const headers = new HttpHeaders({ 'Content-Type': 'applicayion/json' });
+  //   const option = { headers };
+  //   return this.http.post('/emails', data, option).pipe(
+  //     map((res) => {
+  //       return res;
+  //     })
+  //   );
+  // }
 
   onSubmit() {
     console.log(this.userForm.valid);

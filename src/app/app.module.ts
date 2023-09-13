@@ -21,10 +21,10 @@ import { MatSelectModule } from '@angular/material/select';
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    // HttpClientInMemoryWebApiModule.forRoot(FormDataService, {
-    //   apiBase: '/',
-    //   delay: 2000,
-    // }),
+    HttpClientInMemoryWebApiModule.forRoot(FormDataService, {
+      apiBase: '/',
+      delay: 2000,
+    }),
     MatIconModule,
     MatSelectModule,
     MatDatepickerModule,
