@@ -10,3 +10,7 @@ mat-error {
   width: 300px;
   margin-left: -20px;
 }
+
+.email-form mat-error {
+  width: 100% !important;
+}
